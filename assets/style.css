@@ -122,10 +122,12 @@ body, p, h1, h2, h3, h4, h5, h6 {
   
   .nav-pills .nav-link.active,
   .nav-pills .show > .nav-link {
-	color: #fff;
-	background-color: #BEB45A;
-	border-radius: 0;
+	  color: #fff;
+	  background-color: #BEB45A;
+	  border-radius: 0;
+	  text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
   }
+  
   
   .nav-pills .nav-link {
 	color: #000;
