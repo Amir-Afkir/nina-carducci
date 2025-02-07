@@ -1,4 +1,3 @@
-/* Amélioration du contraste pour l’ensemble du contenu */
 body, p, h1, h2, h3, h4, h5, h6 {
 	color: #000;
 }
@@ -48,14 +47,14 @@ body {
 	color: #000;
 }
 
-/* Amélioration du survol/focus */
+/* survol/focus */
 .nav a:hover,
 .nav a:focus {
 	font-weight: 700;
 	outline: none;
 }
 
-/* Icône des réseaux sociaux */
+/* Icône réseaux sociaux */
 .social-link img {
 	width: 20px;
 	height: auto;
@@ -69,7 +68,6 @@ body {
 	position: relative;
 }
 
-/* Ajout de dimensions explicites pour réduire le CLS */
 .picture {
     flex: 1;
     margin: 0 20px;
@@ -78,8 +76,7 @@ body {
 
 .picture img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3; /* Fixe une proportion pour éviter le décalage */
+    height: auto; 
 }
 
 /* Correctif CLS */
