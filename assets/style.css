@@ -51,8 +51,8 @@ body, p, h1, h2, h3, h4, h5, h6 {
   
   /* Amélioration de l'indication visuelle lors du survol/focus */
   .nav a:hover,
-  .nav a:focus {
-	color: #BEB45A;
+  .nav a:focus{
+	font-weight: 700;
 	outline: none;
   }
   
