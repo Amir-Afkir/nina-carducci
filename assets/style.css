@@ -193,18 +193,8 @@ h4 { font-size: 1rem; }
     opacity: 1;
 }
 
-/* ✖️ Style de la croix pour fermer */
-.mg-close {
-    color: white;
-    font-size: 30px;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-}
-
-/* ❮❯ Style des flèches */
-.mg-prev, .mg-next {
+/* ❮❯ Style des flèches et de la croix pour fermer  */
+.mg-prev, .mg-next, .mg-close {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -215,8 +205,15 @@ h4 { font-size: 1rem; }
     transition: opacity 0.3s ease;
 }
 
-.mg-prev:hover, .mg-next:hover {
+.mg-prev:hover, .mg-next:hover, .mg-close:hover {
     opacity: 0.7;
+}
+
+.mg-close {
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+	transform: none;
 }
 
 .mg-prev {

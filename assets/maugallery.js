@@ -23,11 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           this.tagsCollection = new Set();
           this.images = [];
-          if ("IntersectionObserver" in window) {
-              this.imageObserver = new IntersectionObserver(this.lazyLoad, {
-                  rootMargin: "100px",
-              });
-          }
+          this.imageObserver = "IntersectionObserver" in window
+              ? new IntersectionObserver(this.lazyLoad, { rootMargin: "100px" })
+              : null;
+
           this.initGallery();
       }
 
@@ -91,12 +90,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       optimizeImage(item) {
-          if (item.tagName === "IMG") {
-              item.classList.add("img-fluid");
-              item.setAttribute("loading", "lazy");
-              if (this.imageObserver) this.imageObserver.observe(item);
-          }
-      }
+        if (item.tagName === "IMG") {
+            item.classList.add("img-fluid");
+            item.setAttribute("loading", "lazy");
+    
+            // Ajout de srcset et sizes
+            if (item.dataset.srcset) {
+                item.setAttribute("srcset", item.dataset.srcset);
+            }
+            if (item.dataset.sizes) {
+                item.setAttribute("sizes", item.dataset.sizes);
+            }
+    
+            if (this.imageObserver) this.imageObserver.observe(item);
+        }
+    }
+    
 
       collectTag(item) {
           const tag = item.dataset.galleryTag;
@@ -138,13 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setupEvents() {
           this.gallery.addEventListener("click", e => {
-              const t = e.target;
-              if (t.classList.contains("mg-prev")) this.changeImage(-1);
-              else if (t.classList.contains("mg-next")) this.changeImage(1);
-              else if (t.classList.contains("mg-close")) this.closeLightBox();
-              else if (t.dataset.imagesToggle) this.filterByTag(t);
-              else if (t.closest(".gallery-item")) {
-                  this.openLightBox(t.closest(".gallery-item"));
+              const target = e.target;
+              if (target.classList.contains("mg-prev")) this.changeImage(-1);
+              else if (target.classList.contains("mg-next")) this.changeImage(1);
+              else if (target.classList.contains("mg-close")) this.closeLightBox();
+              else if (target.dataset.imagesToggle) this.filterByTag(target);
+              else if (target.closest(".gallery-item")) {
+                  this.openLightBox(target.closest(".gallery-item"));
               }
           });
       }
@@ -161,18 +170,29 @@ document.addEventListener("DOMContentLoaded", () => {
           const index = this.images.indexOf(imgElement.src);
           imgElement.dataset.index = index;
 
-          let backdrop = document.createElement("div");
-          backdrop.className = "modal-backdrop fade show";
-          document.body.appendChild(backdrop);
+          this.createBackdrop();
 
           lb.classList.add("show");
           lb.style.display = "block";
 
-          document.querySelector(".mg-close").addEventListener("click", () => this.closeLightBox());
-          backdrop.addEventListener("click", () => this.closeLightBox());
-
+          this.addCloseEvents(lb);
+          
           document.querySelector(".mg-prev").addEventListener("click", () => this.changeImage(-1));
           document.querySelector(".mg-next").addEventListener("click", () => this.changeImage(1));
+      }
+
+      createBackdrop() {
+          const backdrop = document.createElement("div");
+          backdrop.className = "modal-backdrop fade show";
+          document.body.appendChild(backdrop);
+          backdrop.addEventListener("click", () => this.closeLightBox());
+      }
+
+      addCloseEvents(lb) {
+          document.querySelector(".mg-close").addEventListener("click", () => this.closeLightBox());
+          lb.addEventListener("click", (e) => {
+              if (e.target === lb) this.closeLightBox();
+          });
       }
 
       closeLightBox() {
@@ -185,8 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               const backdrop = document.querySelector(".modal-backdrop");
               if (backdrop) {
-                  backdrop.classList.remove("show");
-                  setTimeout(() => backdrop.remove(), 300);
+                  backdrop.remove();
               }
           }
       }
@@ -197,19 +216,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const imgElement = lb.querySelector(".lightboxImage");
 
-          if (!this.images || this.images.length === 0) {
-              console.warn("Aucune image trouvée dans la galerie !");
-              return;
-          }
+          if (!this.images.length) return console.warn("Aucune image trouvée dans la galerie !");
 
-          let index = parseInt(imgElement.dataset.index, 10);
-
-          if (isNaN(index) || index < 0 || index >= this.images.length) {
-              console.warn("Index d'image invalide !");
-              return;
-          }
-
-          index = (index + direction + this.images.length) % this.images.length;
+          const index = (parseInt(imgElement.dataset.index, 10) + direction + this.images.length) % this.images.length;
           imgElement.src = this.images[index];
           imgElement.dataset.index = index;
       }
@@ -219,13 +228,13 @@ document.addEventListener("DOMContentLoaded", () => {
               el.classList.remove("active", "active-tag")
           );
           tagEl.classList.add("active", "active-tag");
+
           const tag = tagEl.dataset.imagesToggle;
           this.gallery.querySelectorAll(".item-column").forEach(col => {
               const item = col.querySelector(".gallery-item");
-              col.style.display =
-                  tag === "all" || (item && item.dataset.galleryTag === tag)
-                      ? "block"
-                      : "none";
+              col.style.display = tag === "all" || (item && item.dataset.galleryTag === tag)
+                  ? "block"
+                  : "none";
           });
       }
   }
