@@ -75,13 +75,14 @@ h4 { font-size: 1rem; }
 .picture img {
     width: 100%;
     height: auto; 
+	max-width: 560px;
+	max-height: 560px;
     aspect-ratio: 1 / 1;
 }
 
 /* 🎯 Correctif CLS */
 .picture.left::before, 
 .picture.right::before {
-    content: "";
     position: absolute;
     width: 374px;
     height: 329px;
