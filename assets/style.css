@@ -83,6 +83,7 @@ h4 { font-size: 1rem; }
 /* 🎯 Correctif CLS */
 .picture.left::before, 
 .picture.right::before {
+    content: ' ';
     position: absolute;
     width: 374px;
     height: 329px;
