@@ -1,5 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ maugallery.js chargé !");
+    console.log("✅ DOM chargé, initialisation du carrousel Bootstrap");
+
+    let prevButton = document.getElementById("prevButton");
+    let nextButton = document.getElementById("nextButton");
+    let carousel = document.getElementById("carouselExampleIndicators");
+
+    if (!prevButton || !nextButton || !carousel) {
+        console.error("❌ Erreur : Un bouton ou le carrousel est introuvable !");
+        return;
+    }
+
+    // Récupérer l'instance du carrousel Bootstrap
+    let bsCarousel = new bootstrap.Carousel(carousel, {
+        interval: false, // Désactive l'auto-slide
+        wrap: true // Permet de revenir au début après la dernière image
+    });
+
+    // Ajout de l'événement pour le bouton précédent (gauche)
+    prevButton.addEventListener("click", function () {
+        bsCarousel.prev(); // Méthode Bootstrap pour aller à l'image précédente
+        console.log("⬅️ Slide précédent déclenché !");
+    });
+
+    // Ajout de l'événement pour le bouton suivant (droite)
+    nextButton.addEventListener("click", function () {
+        bsCarousel.next(); // Méthode Bootstrap pour aller à l'image suivante
+        console.log("➡️ Slide suivant déclenché !");
+    });
+    
   
   // Vérification que la classe MauGallery n’est pas déjà définie
   if (typeof window.MauGallery === "function") {
@@ -237,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   : "none";
           });
       }
+      
   }
 
   MauGallery.registerGlobal();

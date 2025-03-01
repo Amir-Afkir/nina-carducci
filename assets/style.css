@@ -154,6 +154,61 @@ h4 { font-size: 1rem; }
     height: 100%;
     object-fit: cover;
 }
+/* 🌟 Style général des boutons */
+.custom-carousel-control {
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* 🎯 Position spécifique du bouton "Prev" (gauche) */
+.custom-carousel-control.prev {
+    left: 100px;
+}
+
+/* 🎯 Position spécifique du bouton "Next" (droite) */
+.custom-carousel-control.next {
+    right: 100px;
+}
+
+/* 🔄 Icônes des boutons */
+.custom-prev-icon, .custom-next-icon {
+    font-size: 30px;
+    justify-content: center;
+    display: flex;
+}
+
+.custom-prev-icon {
+    margin-right : 5px
+}
+.custom-next-icon {
+    margin-left : 5px
+}
+
+
+/* ✨ Effet au survol */
+.custom-carousel-control:hover {
+    background-color: white;
+    color: black;
+    transform: scale(1.1); /* Effet d'agrandissement */
+}
+
+/* 🌟 Animation d’apparition au chargement */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-50%) scale(0.8); }
+    to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
 
 /* 🎨 Optimisation des images de la galerie */
 .item-column {
